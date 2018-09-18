@@ -4,8 +4,6 @@
     </a>
     <h1 align="center">A simple link shortener</h1>
     from <a href="http://1er.ir/"/> 1er.ir </a> project
-    
-    <br>
 </p>
 
 
