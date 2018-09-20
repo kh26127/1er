@@ -2,6 +2,7 @@
 
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
+$baseUrl = str_replace('/web', '', (new \yii\web\Request())->getBaseUrl());
 
 $config = [
     'id' => 'basic',
@@ -11,10 +12,20 @@ $config = [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
+    'modules' => [
+        'v1' => [
+            'class' => 'app\modules\v1\Modules',
+        ],
+        'link' => [
+            'class' => 'app\modules\link\Modules',
+        ],
+    ],
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'CCYcHCs5WhEvAObvWpr439J0fdiBpQOk',
+            'baseUrl' => $baseUrl,
+
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -33,6 +44,7 @@ $config = [
             // for the mailer to send real emails.
             'useFileTransport' => true,
         ],
+
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
@@ -42,15 +54,21 @@ $config = [
                 ],
             ],
         ],
+
         'db' => $db,
-        /*
+
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            'baseUrl' => $baseUrl,
             'rules' => [
+                '/*' => 'v1/default/index',
+                '<token:\w+>/analysis' => '/link/default/get',
+                '<token:\w+>' => '/link/default/get',
+
             ],
         ],
-        */
+
     ],
     'params' => $params,
 ];
